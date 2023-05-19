@@ -1,5 +1,6 @@
 use anyhow::{anyhow, Result};
 use clap::{command, Parser};
+use log::info;
 use std::{env, fs, os::unix::fs::symlink};
 
 #[derive(Parser, Debug)]
@@ -67,12 +68,12 @@ fn main() -> Result<()> {
             fs::remove_file(&link_path);
 
             let original_path = env_dir_path.clone().join(&env_file_name);
-            println!(
+            info!(
                 "Attempting to symlink {:?} to {:?}",
                 original_path, link_path
             );
             symlink(&original_path, &link_path)?;
-            println!("Symlinked {:?} to {:?}", original_path, link_path);
+            info!("Symlinked {:?} to {:?}", original_path, link_path);
         }
     }
     Ok(())
